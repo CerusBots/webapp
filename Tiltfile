@@ -9,4 +9,4 @@ docker_build_with_restart('ghcr.io/cerusbots/webapp', '.', 'npm run dev', docker
 k8s_yaml('./kube/deploy.yml')
 k8s_yaml('./kube/service.yml')
 
-k8s_resource(workload='cerus-webapp', labels=['cerus-frontend'], port_forwards=3001)
+k8s_resource(workload='cerus-webapp', labels=['cerus-frontend'], port_forwards=['3001:3000'])
