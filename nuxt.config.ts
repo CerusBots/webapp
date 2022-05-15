@@ -16,7 +16,8 @@ export default defineNuxtConfig({
     },
     vite: {
         define: {
-            'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`
+            'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`,
+            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`
         },
         optimizeDeps: {
             include: ['@sentry/vue', '@sentry/tracing']
