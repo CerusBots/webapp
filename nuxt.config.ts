@@ -2,7 +2,6 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-    debug: true,
     modules: ['@intlify/nuxt3', '@nuxtjs/color-mode', '@midstallsw/vista'],
     vista: {
         branding: {
@@ -13,6 +12,14 @@ export default defineNuxtConfig({
             default: {
                 links: [{ url: '/', icon: 'mdi-home', title: { key: 'page.home' } }]
             }
+        }
+    },
+    vite: {
+        define: {
+            'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`
+        },
+        optimizeDeps: {
+            include: ['@sentry/vue', '@sentry/tracing']
         }
     },
     intlify: {
