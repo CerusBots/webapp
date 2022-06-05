@@ -1,4 +1,12 @@
 {
-  // https://v3.nuxtjs.org/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+    "compilerOptions": {
+        "module": "ESNext",
+        "lib": ["DOM"],
+        "sourceMap": true,
+        "jsx": "react-jsx",
+        "types": ["@types/react", "@types/node"],
+        "esModuleInterop": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
 }
