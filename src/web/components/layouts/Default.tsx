@@ -1,14 +1,28 @@
 import React from 'react'
 import { Layout } from 'antd'
 
-const { Content } = Layout
+const { Header, Content, Sider } = Layout
 
-export default function LayoutDefault(props: {
-	children: React.ReactChildren
-}) {
-	return (
+const LayoutDefault: React.FC<{}> = (props) => (
+	<Layout hasSider>
+		<Sider
+			style={{
+				overflow: 'auto',
+				height: '100vh',
+				position: 'fixed',
+				left: 0,
+				bottom: 0,
+				top: 0,
+			}}>
+			<div className="logo" />
+		</Sider>
 		<Layout className="layout-default">
-			<Content style={{ padding: '0 50px' }}></Content>
+			<Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+				<div className="logo" />
+			</Header>
+			<Content style={{ padding: '0 50px' }}>{props.children}</Content>
 		</Layout>
-	)
-}
+	</Layout>
+)
+
+export default LayoutDefault

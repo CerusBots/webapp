@@ -4,13 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link ref="stylesheet" type="text/css" href="/main.css" />
         <%- locals.helmet.title.toString() %>
         <%- locals.helmet.meta.toString() %>
         <%- locals.helmet.link.toString() %>
     </head>
     <body <%- locals.helmet.bodyAttributes.toString() %>>
         <div id="app"><%- locals.body %></div>
-        <script type="module" src="/main.js"></script>
+        <script type="module" src="/src/web/entry.client.tsx"></script>
     </body>
 </html>

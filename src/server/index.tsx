@@ -1,34 +1,30 @@
 import esMain from 'es-main'
-import { readFile } from 'fs/promises'
 import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
 import Helmet from 'react-helmet'
-import React from 'react'
 import express, { Application } from 'express'
-import ReactDOMServer from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom/server'
+import { createServer as createViteServer, ViteDevServer } from 'vite'
 import IndexTemplate from './index.html.ejs'
+import config from '../common/config'
 
 interface ServerOptions {
-	clientBundle: string
-	appBundle: string
-	chunksPath: string
-	stylesBundle: string
+	sourceDir: string
+	distDir: string
 	port: number
 }
 
 interface ServerContext {
 	options: ServerOptions
 	app: Application
+	vite: ViteDevServer
 }
 
 const getDefaultServerOptions: () => ServerOptions = () => {
-	const distPath = resolve(fileURLToPath(new URL('../dist', import.meta.url)))
+	const sourceDir = resolve(fileURLToPath(new URL('../', import.meta.url)))
+	const distDir = resolve(fileURLToPath(new URL('../dist', import.meta.url)))
 	return {
-		clientBundle: join(distPath, 'web.mjs'),
-		appBundle: join(distPath, 'components.mjs'),
-		chunksPath: join(distPath, 'chunks'),
-		stylesBundle: join(distPath, 'bundle.css'),
+		sourceDir,
+		distDir,
 		port: 8080,
 	}
 }
@@ -37,37 +33,41 @@ export async function createServer(
 	options: ServerOptions = getDefaultServerOptions()
 ): Promise<ServerContext> {
 	const app = express()
-	const context = { app, options }
+	const vite = await createViteServer({
+		root: options.sourceDir,
+		server: { middlewareMode: 'ssr' },
+	})
+	console.log(options)
+	const context = { app, options, vite }
 
-	app.use('/chunks', express.static(options.chunksPath))
-
-	app.all('/main.js', (_req, res, next) =>
-		readFile(options.clientBundle)
-			.then((buff) => res.type('application/javascript').send(buff))
-			.catch((error) => next(error))
-	)
-
-	app.all('/main.css', (_req, res, next) =>
-		readFile(options.stylesBundle)
-			.then((buff) => res.type('text/css').send(buff))
-			.catch((error) => next(error))
-	)
+	app.use(vite.middlewares)
 
 	app.use((req, res, next) => {
-		import(options.appBundle)
-			.then(({ default: defaultExport }) => {
-				const { App } = defaultExport
-				const body = ReactDOMServer.renderToString(
-					<React.StrictMode>
-						<StaticRouter location={req.url}>
-							<App />
-						</StaticRouter>
-					</React.StrictMode>
-				)
-				const helmet = Helmet.renderStatic()
-				res.send(IndexTemplate({ req, body, helmet }))
-			})
-			.catch((error) => next(error))
+		const doRender = async ({ render }) => {
+			const body = render(req.url)
+			const helmet = Helmet.renderStatic()
+			const html = await vite.transformIndexHtml(
+				req.url,
+				IndexTemplate({ req, body, helmet })
+			)
+			res.send(html)
+		}
+
+		if (config.production)
+			vite
+				.ssrLoadModule(join(options.sourceDir, 'src', 'web', 'entry.server.tsx'))
+				.then(doRender)
+				.catch((error) => {
+					vite.ssrFixStacktrace(error)
+					next(error)
+				})
+		else
+			import(join(options.distDir, 'ssr', 'entry.server.js'))
+				.then(doRender)
+				.catch((error) => {
+					vite.ssrFixStacktrace(error)
+					next(error)
+				})
 	})
 
 	app.use((error, req, res, next) => {
