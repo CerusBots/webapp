@@ -16,7 +16,7 @@ interface ServerOptions {
 interface ServerContext {
 	options: ServerOptions
 	app: Application
-	vite: ViteDevServer
+	vite?: ViteDevServer
 }
 
 const getDefaultServerOptions: () => ServerOptions = () => {
@@ -33,27 +33,27 @@ export async function createServer(
 	options: ServerOptions = getDefaultServerOptions()
 ): Promise<ServerContext> {
 	const app = express()
-	const vite = await createViteServer({
-		root: options.sourceDir,
-		server: { middlewareMode: 'ssr' },
-	})
-	console.log(options)
+	const vite: ViteDevServer | undefined = config.production
+		? undefined
+		: await createViteServer({
+				root: options.sourceDir,
+				server: { middlewareMode: 'ssr' },
+		  })
 	const context = { app, options, vite }
 
-	app.use(vite.middlewares)
+	if (vite) app.use(vite.middlewares)
+	else app.use('/', express.static(join(options.distDir, 'web')))
 
 	app.use((req, res, next) => {
 		const doRender = async ({ render }) => {
 			const body = render(req.url)
 			const helmet = Helmet.renderStatic()
-			const html = await vite.transformIndexHtml(
-				req.url,
-				IndexTemplate({ req, body, helmet })
-			)
+			let html = IndexTemplate({ req, body, helmet, config })
+			if (vite) html = await vite.transformIndexHtml(req.url, html)
 			res.send(html)
 		}
 
-		if (config.production)
+		if (vite)
 			vite
 				.ssrLoadModule(join(options.sourceDir, 'src', 'web', 'entry.server.tsx'))
 				.then(doRender)
@@ -65,7 +65,7 @@ export async function createServer(
 			import(join(options.distDir, 'ssr', 'entry.server.js'))
 				.then(doRender)
 				.catch((error) => {
-					vite.ssrFixStacktrace(error)
+					if (vite) vite.ssrFixStacktrace(error)
 					next(error)
 				})
 	})

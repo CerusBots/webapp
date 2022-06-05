@@ -7,9 +7,16 @@
         <%- locals.helmet.title.toString() %>
         <%- locals.helmet.meta.toString() %>
         <%- locals.helmet.link.toString() %>
+        <% if (locals.config.production) { %>
+            <link rel="stylesheet" href="/style.css" />
+        <% } %>
     </head>
     <body <%- locals.helmet.bodyAttributes.toString() %>>
         <div id="app"><%- locals.body %></div>
-        <script type="module" src="/src/web/entry.client.tsx"></script>
+        <% if (locals.config.production) { %>
+            <script src="/webapp.es.js"></script>
+        <% } else { %>
+            <script type="module" src="/src/web/entry.client.tsx"></script>
+        <% } %>
     </body>
 </html>
