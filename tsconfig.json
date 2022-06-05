@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "ESNext",
-        "lib": ["DOM"],
-        "sourceMap": true,
-        "jsx": "react-jsx",
-        "types": ["@types/react", "@types/node"],
-        "esModuleInterop": true
-    },
-    "include": ["src"],
-    "exclude": ["node_modules"]
+	"compilerOptions": {
+		"module": "ESNext",
+		"lib": ["DOM"],
+		"sourceMap": true,
+		"jsx": "react-jsx",
+		"types": ["@types/react", "@types/node"],
+		"esModuleInterop": true,
+		"moduleResolution": "node"
+	},
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

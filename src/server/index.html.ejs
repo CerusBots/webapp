@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html <%- locals.helmet.htmlAttributes.toString() %>>
     <head>
-        <title>Loading Application</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <script type="module" src="/main.js"></script>
+        <link ref="stylesheet" type="text/css" href="/main.css" />
+        <%- locals.helmet.title.toString() %>
+        <%- locals.helmet.meta.toString() %>
+        <%- locals.helmet.link.toString() %>
     </head>
-    <body>
+    <body <%- locals.helmet.bodyAttributes.toString() %>>
         <div id="app"><%- locals.body %></div>
+        <script type="module" src="/main.js"></script>
     </body>
 </html>

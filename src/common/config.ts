@@ -3,7 +3,7 @@ const production = env === 'production'
 const debug = !production
 
 export default {
-  env,
-  production,
-  debug
+	env,
+	production,
+	debug,
 }

@@ -1,49 +1,61 @@
 {
-  "name": "@cerusbots/webapp",
-  "version": "0.1.0",
-  "description": "This is the repository for Cerus's web-application frontend",
-  "scripts": {
-    "stub": "unbuild --stub",
-    "build:js": "unbuild",
-    "lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\" --ignore-path .gitignore ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CerusBots/webapp.git"
-  },
-  "author": "RossComputerGuy",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/CerusBots/webapp/issues"
-  },
-  "homepage": "https://github.com/CerusBots/webapp#readme",
-  "devDependencies": {
-    "@ant-design/react-native": "^5.0.0",
-    "@types/ejs": "^3.1.1",
-    "@types/express": "^4.17.13",
-    "@types/jest": "^28.1.1",
-    "@types/node": "^17.0.39",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
-    "@typescript-eslint/parser": "^5.27.0",
-    "antd": "^3.11.1",
-    "ejs": "^3.1.8",
-    "es-main": "^1.0.2",
-    "eslint": "^8.17.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.0",
-    "express": "^4.18.1",
-    "html-minifier": "^4.0.0",
-    "node-sass": "^7.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.3.0",
-    "rollup-pluginutils": "^2.8.2",
-    "typescript": "^4.7.3",
-    "unbuild": "^0.7.4"
-  }
+	"name": "@cerusbots/webapp",
+	"version": "0.1.0",
+	"description": "This is the repository for Cerus's web-application frontend",
+	"scripts": {
+		"stub": "unbuild --stub",
+		"build:js": "unbuild",
+		"lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\" --ignore-path .gitignore .",
+		"lint:style": "stylelint \"**/*.{css,scss,sass}\" --ignore-path .gitignore",
+		"lint:prettier": "prettier -c .",
+		"lint": "npm run lint:js && npm run lint:style && npm run lint:prettier"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CerusBots/webapp.git"
+	},
+	"author": "RossComputerGuy",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/CerusBots/webapp/issues"
+	},
+	"homepage": "https://github.com/CerusBots/webapp#readme",
+	"devDependencies": {
+		"@ant-design/react-native": "^5.0.0",
+		"@types/ejs": "^3.1.1",
+		"@types/express": "^4.17.13",
+		"@types/jest": "^28.1.1",
+		"@types/node": "^17.0.39",
+		"@types/react": "^17.0.2",
+		"@types/react-dom": "^17.0.2",
+		"@typescript-eslint/eslint-plugin": "^5.27.0",
+		"@typescript-eslint/parser": "^5.27.0",
+		"antd": "^3.11.1",
+		"ejs": "^3.1.8",
+		"es-main": "^1.0.2",
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-config-standard": "^17.0.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-n": "^15.2.1",
+		"eslint-plugin-promise": "^6.0.0",
+		"eslint-plugin-react": "^7.30.0",
+		"express": "^4.18.1",
+		"html-minifier": "^4.0.0",
+		"less": "^4.1.2",
+		"node-sass": "^7.0.1",
+		"prettier": "^2.6.2",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-helmet": "^6.1.0",
+		"react-router-dom": "^6.3.0",
+		"rollup-plugin-styles": "^4.0.0",
+		"rollup-pluginutils": "^2.8.2",
+		"stylelint": "^14.8.5",
+		"stylelint-config-prettier": "^9.0.3",
+		"stylelint-config-recommended-scss": "^6.0.0",
+		"stylelint-config-standard": "^25.0.0",
+		"typescript": "^4.7.3",
+		"unbuild": "^0.7.4"
+	}
 }

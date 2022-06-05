@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: cerus-webapp
-  name: cerus-webapp
-  namespace: cerusbots
+ labels:
+  app: cerus-webapp
+ name: cerus-webapp
+ namespace: cerusbots
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: cerus-webapp
-  template:
-    metadata:
-      labels:
-        app: cerus-webapp
-    spec:
-      containers:
-        - image: ghcr.io/cerusbots/webapp:master
-          imagePullPolicy: Always
-          name: website
-          envFrom:
-            - secretRef:
-                name: cerus-webapp-secrets
-          ports:
-            - containerPort: 3000
-              name: http
+ replicas: 1
+ selector:
+  matchLabels:
+   app: cerus-webapp
+ template:
+  metadata:
+   labels:
+    app: cerus-webapp
+  spec:
+   containers:
+    - image: ghcr.io/cerusbots/webapp:master
+      imagePullPolicy: Always
+      name: website
+      envFrom:
+       - secretRef:
+          name: cerus-webapp-secrets
+      ports:
+       - containerPort: 3000
+         name: http
