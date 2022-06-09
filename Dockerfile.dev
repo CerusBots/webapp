@@ -9,6 +9,8 @@ ENV NODE_ENV development
 
 RUN npm config set update-notifier false
 RUN npm install
+RUN npm run build:server
 
 EXPOSE 3000
 ENTRYPOINT [ "dumb-init", "npm", "run", "dev" ]
+ENTRYPOINT [ "dumb-init", "node", "dist/server.mjs" ]

@@ -16,8 +16,7 @@ ENV NODE_ENV production
 WORKDIR /usr/src/server
 
 COPY --chown=node:node --from=build /usr/src/server/node_modules /usr/src/server/node_modules
-COPY --chown=node:node --from=build /usr/src/server/.nuxt /usr/src/server/.nuxt
-COPY --chown=node:node --from=build /usr/src/server/.output /usr/src/server/.output
+COPY --chown=node:node --from=build /usr/src/server/dist /usr/src/server/dist
 
 EXPOSE 3000
-ENTRYPOINT [ "dumb-init", "node", ".output/server/index.mjs" ]
+ENTRYPOINT [ "dumb-init", "node", "dist/server.mjs" ]

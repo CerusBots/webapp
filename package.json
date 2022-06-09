@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"build:ssr": "IS_SERVER=1 vite build --outDir dist/ssr --ssr src/web/entry.server.tsx",
+		"build:ssr": "STAGE=ssr vite build --outDir dist/ssr --ssr src/web/entry.server.tsx",
 		"build:server": "unbuild",
-		"build:web": "vite build --outDir dist/web",
+		"build:web": "STAGE=client vite build --outDir dist/web",
 		"build": "npm run build:server && npm run build:ssr && npm run build:web",
 		"lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\" --ignore-path .gitignore .",
 		"lint:style": "stylelint \"**/*.{css,scss,sass}\" --ignore-path .gitignore",
@@ -26,6 +26,7 @@
 		"vite": "^2.9.9"
 	},
 	"devDependencies": {
+		"@ant-design/icons": "^4.7.0",
 		"@ant-design/react-native": "^5.0.0",
 		"@types/express": "^4.17.13",
 		"@types/node": "^17.0.40",

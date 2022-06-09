@@ -19,9 +19,6 @@ spec:
     - image: ghcr.io/cerusbots/webapp:master
       imagePullPolicy: Always
       name: website
-      envFrom:
-       - secretRef:
-          name: cerus-webapp-secrets
       ports:
-       - containerPort: 3000
+       - containerPort: 8080
          name: http

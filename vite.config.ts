@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 
 const srcdir = fileURLToPath(new URL('./', import.meta.url))
-const IS_SERVER = process.env.IS_SERVER === '1'
 
 export default defineConfig({
 	plugins: [react(), ejs()],
@@ -21,12 +20,19 @@ export default defineConfig({
 		'process.env.NODE_ENV': `"${config.env}"`,
 	},
 	build: {
-		lib: IS_SERVER
-			? undefined
-			: {
-					entry: resolve(srcdir, 'src', 'web', 'entry.client.tsx'),
-					name: 'entry-client',
-			  },
+		lib: {
+			client: {
+				entry: resolve(srcdir, 'src', 'web', 'entry.client.tsx'),
+				name: 'entry-client',
+			},
+			server: {
+				entry: resolve(srcdir, 'src', 'server', 'index.tsx'),
+				name: 'server',
+			},
+			ssr: undefined,
+		}[process.env.STAGE || 'ssr'],
+		minify: config.production,
+		sourcemap: config.production,
 	},
 	resolve: {
 		alias: {
