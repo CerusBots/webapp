@@ -2,3 +2,4 @@ dist
 *.tar.gz
 *.log
 node_modules
+.env

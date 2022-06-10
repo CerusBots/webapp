@@ -1,5 +1,8 @@
 load('ext://deployment', 'deployment_create')
 load('ext://restart_process', 'docker_build_with_restart')
+load('ext://secret', 'secret_yaml_generic')
+
+k8s_yaml(secret_yaml_generic('cerus-webapp-secrets', namespace='cerusbots', from_env_file='./.env'))
 
 docker_build_with_restart('ghcr.io/cerusbots/webapp', '.', 'node dist/server.mjs', dockerfile='./Dockerfile.dev', live_update=[
   sync('.', '/usr/src/server'),
