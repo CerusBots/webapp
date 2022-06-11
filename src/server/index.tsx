@@ -1,6 +1,7 @@
 import esMain from 'es-main'
 import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
+import serverTiming from 'server-timing'
 import { compile, TemplateFunction, Data } from 'ejs'
 import Helmet from 'react-helmet'
 import express, { Application } from 'express'
@@ -42,6 +43,12 @@ export async function createServer(
 		  })
 	const context = { app, options, vite }
 
+	app.use(
+		serverTiming({
+			enabled: config.debug,
+		})
+	)
+
 	if (vite) app.use(vite.middlewares)
 	else app.use('/', express.static(join(options.distDir, 'web')))
 
@@ -50,10 +57,20 @@ export async function createServer(
 			IndexTemplate: (locals: Data) => string,
 			{ render }
 		) => {
+			res.startTime('render-react', 'React Render')
 			const body = render(req.url)
 			const helmet = Helmet.renderStatic()
+			res.endTime('render-react')
+
+			res.startTime('render-ejs', 'EJS Render')
 			let html = IndexTemplate({ req, body, helmet, config })
-			if (vite) html = await vite.transformIndexHtml(req.url, html)
+			res.endTime('render-ejs')
+
+			if (vite) {
+				res.startTime('render-vite', 'Vite Transformer')
+				html = await vite.transformIndexHtml(req.url, html)
+				res.endTime('render-vite')
+			}
 			res.send(html)
 		}
 
