@@ -1,11 +1,12 @@
 import esMain from 'es-main'
 import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
+import { compile, TemplateFunction, Data } from 'ejs'
 import Helmet from 'react-helmet'
 import express, { Application } from 'express'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
-import IndexTemplate from './index.html.ejs'
 import config from '../common/config'
+import { readFileSync } from 'fs'
 
 interface ServerOptions {
 	sourceDir: string
@@ -45,12 +46,31 @@ export async function createServer(
 	else app.use('/', express.static(join(options.distDir, 'web')))
 
 	app.use((req, res, next) => {
-		const doRender = async ({ render }) => {
+		const templatedRender = async (
+			IndexTemplate: (locals: Data) => string,
+			{ render }
+		) => {
 			const body = render(req.url)
 			const helmet = Helmet.renderStatic()
 			let html = IndexTemplate({ req, body, helmet, config })
 			if (vite) html = await vite.transformIndexHtml(req.url, html)
 			res.send(html)
+		}
+
+		const doRender = async (exported) => {
+			const IndexTemplate = config.production
+				? (await import('./index.html.ejs')).default
+				: (locals: Data) => {
+						const templateFn = compile(
+							readFileSync(
+								join(options.sourceDir, 'src', 'server', 'index.html.ejs'),
+								'utf8'
+							),
+							{ async: false }
+						) as TemplateFunction
+						return templateFn({ locals })
+				  }
+			return await templatedRender(IndexTemplate, exported)
 		}
 
 		if (vite)

@@ -12,4 +12,4 @@ RUN npm install
 RUN npm run build:server
 
 EXPOSE 3000
-ENTRYPOINT [ "dumb-init", "node", "dist/server.mjs" ]
+ENTRYPOINT [ "dumb-init", "npm", "run", "dev" ]

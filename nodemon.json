@@ -1,0 +1,5 @@
+{
+	"ignore": ["dist", "node_modules", "src/web"],
+	"exec": "unbuild && node {{filename}}",
+	"ext": "*.tsx"
+}
