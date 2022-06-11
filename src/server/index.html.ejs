@@ -10,6 +10,9 @@
         <% if (locals.config.production) { %>
             <link rel="stylesheet" href="/style.css" />
         <% } %>
+        <% if (locals.analyticsURL) { %>
+            <script defer data-domain="<%= locals.req.domain %>" src="<%= locals.analyticsURL %>"></script>
+        <% } %>
     </head>
     <body <%- locals.helmet.bodyAttributes.toString() %>>
         <div id="app"><%- locals.body %></div>
