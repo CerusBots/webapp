@@ -12,8 +12,15 @@ const LayoutDefault: React.FC<{}> = (props) => {
 	return (
 		<Layout
 			className="layout-default"
-			style={{ width: '100vw', height: '100vh' }}>
-			<Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+			style={{
+				position: 'relative',
+				display: 'flex',
+				height: '100vh',
+				width: '100vw',
+				flexDirection: 'column',
+				overflow: 'hidden',
+			}}>
+			<Header>
 				<div
 					style={{
 						display: 'flex',
@@ -35,36 +42,28 @@ const LayoutDefault: React.FC<{}> = (props) => {
 					/>
 				</div>
 			</Header>
-			<Layout style={{ minHeight: '100%' }}>
+			<Layout
+				style={{
+					display: 'flex',
+					flexGrow: '1',
+					flexShrink: '1',
+					overflow: 'hidden',
+				}}>
 				<Sider
 					breakpoint="lg"
 					collapsedWidth="0"
 					collapsed={!isSideOpen}
-					style={{
-						overflow: 'auto',
-						height: '100vh',
-						position: 'fixed',
-						left: 0,
-						bottom: 0,
-						top: 0,
-					}}
 					onBreakpoint={(broken) => {
 						setSideOpen(!broken)
 					}}>
 					<div className="logo" />
 				</Sider>
-				<Content style={{ minHeight: '100%' }}>{props.children}</Content>
+				<Content style={{ flexGrow: '1', overflow: 'auto' }}>
+					{props.children}
+				</Content>
 				<Sider
 					collapsedWidth="0"
 					collapsed={!isUserSideOpen}
-					style={{
-						overflow: 'auto',
-						height: '100vh',
-						position: 'fixed',
-						right: 0,
-						bottom: 0,
-						top: 0,
-					}}
 					onBreakpoint={(broken) => {
 						setSideOpen(!broken)
 					}}>

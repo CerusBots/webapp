@@ -20,8 +20,8 @@ spec:
       imagePullPolicy: Always
       name: website
       envFrom:
-        - secretRef:
-            name: cerus-webapp-secrets
+       - secretRef:
+          name: cerus-webapp-secrets
       ports:
        - containerPort: 8080
          name: http

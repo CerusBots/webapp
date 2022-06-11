@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
+		"prepare": "husky install",
 		"build:ssr": "STAGE=ssr vite build --outDir dist/ssr --ssr src/web/entry.server.tsx",
 		"build:server": "unbuild",
 		"build:web": "STAGE=client vite build --outDir dist/web",
@@ -16,6 +17,9 @@
 		"type": "git",
 		"url": "git+https://github.com/CerusBots/webapp.git"
 	},
+	"lint-staged": {
+		".ts{x,}": "eslint"
+	},
 	"author": "RossComputerGuy",
 	"license": "GPL-3.0",
 	"bugs": {
@@ -28,6 +32,7 @@
 	"devDependencies": {
 		"@ant-design/icons": "^4.7.0",
 		"@ant-design/react-native": "^5.0.0",
+		"@commitlint/config-conventional": "^17.0.2",
 		"@sentry/react": "^7.1.1",
 		"@sentry/tracing": "^7.1.1",
 		"@types/express": "^4.17.13",
@@ -49,7 +54,9 @@
 		"eslint-plugin-react": "^7.30.0",
 		"express": "^4.18.1",
 		"html-minifier": "^4.0.0",
+		"husky": "^8.0.1",
 		"less": "^4.1.2",
+		"lint-staged": "^13.0.1",
 		"node-sass": "^7.0.1",
 		"prettier": "^2.6.2",
 		"react": "^17.0.2",
