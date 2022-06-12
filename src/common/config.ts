@@ -6,4 +6,5 @@ export default {
 	env,
 	production,
 	debug,
+	domain: process.env.DOMAIN,
 }

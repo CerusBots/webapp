@@ -7,7 +7,8 @@ dotenv()
 k8s_yaml(secret_from_dict('cerus-webapp-secrets', namespace='cerusbots', inputs = {
   'SENTRY_DSN': os.getenv('SENTRY_DSN'),
   'ENABLE_ANALYTICS': os.getenv('ENABLE_ANALYTICS'),
-  'ANALYTICS_URL': os.getenv('ANALYTICS_URL')
+  'ANALYTICS_HOST': os.getenv('ANALYTICS_HOST'),
+  'DOMAIN': 'app.cerusbots.test'
 }))
 
 docker_build('ghcr.io/cerusbots/webapp', '.', dockerfile='./Dockerfile.dev', live_update=[

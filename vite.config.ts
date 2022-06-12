@@ -19,6 +19,7 @@ export default defineConfig({
 	define: {
 		'process.env.NODE_ENV': `"${config.env}"`,
 		'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`,
+		'process.env.DOMAIN': `"${process.env.DOMAIN}"`,
 	},
 	build: {
 		lib: {

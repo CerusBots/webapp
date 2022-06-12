@@ -63,7 +63,16 @@ export async function createServer(
 			res.endTime('render-react')
 
 			res.startTime('render-ejs', 'EJS Render')
-			let html = IndexTemplate({ req, body, helmet, config, analyticsURL: process.env.ENABLE_ANALYTICS === '1' ? process.env.ANALYTICS_URL : undefined })
+			let html = IndexTemplate({
+				req,
+				body,
+				helmet,
+				config,
+				analyticsHost:
+					process.env.ENABLE_ANALYTICS === '1'
+						? process.env.ANALYTICS_HOST
+						: undefined,
+			})
 			res.endTime('render-ejs')
 
 			if (vite) {

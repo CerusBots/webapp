@@ -10,8 +10,8 @@
         <% if (locals.config.production) { %>
             <link rel="stylesheet" href="/style.css" />
         <% } %>
-        <% if (locals.analyticsURL) { %>
-            <script defer data-domain="<%= locals.req.domain %>" src="<%= locals.analyticsURL %>"></script>
+        <% if (locals.analyticsHost) { %>
+            <script defer data-domain="<%= locals.config.domain %>" src="http://<%= locals.analyticsHost %>/js/plausible.js"></script>
         <% } %>
     </head>
     <body <%- locals.helmet.bodyAttributes.toString() %>>
