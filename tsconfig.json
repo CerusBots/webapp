@@ -6,7 +6,9 @@
 		"jsx": "react-jsx",
 		"types": ["@types/react", "@types/node"],
 		"esModuleInterop": true,
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]

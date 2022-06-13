@@ -7,4 +7,6 @@ export default {
 	production,
 	debug,
 	domain: process.env.DOMAIN,
+	apiHost: process.env.API_HOST,
+	apiVersion: 'v1',
 }

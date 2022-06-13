@@ -8,6 +8,9 @@ k8s_yaml(secret_from_dict('cerus-webapp-secrets', namespace='cerusbots', inputs 
   'SENTRY_DSN': os.getenv('SENTRY_DSN'),
   'ENABLE_ANALYTICS': os.getenv('ENABLE_ANALYTICS'),
   'ANALYTICS_HOST': os.getenv('ANALYTICS_HOST'),
+  'CLIENT_ID': os.getenv('CLIENT_ID'),
+  'CLIENT_SECRET': os.getenv('CLIENT_SECRET'),
+  'API_HOST': 'api.cerusbots.test',
   'DOMAIN': 'app.cerusbots.test'
 }))
 

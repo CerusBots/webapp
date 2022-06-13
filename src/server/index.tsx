@@ -5,6 +5,7 @@ import serverTiming from 'server-timing'
 import { compile, TemplateFunction, Data } from 'ejs'
 import Helmet from 'react-helmet'
 import express, { Application } from 'express'
+import cookieParser from 'cookie-parser'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import config from '../common/config'
 import { readFileSync } from 'fs'
@@ -49,16 +50,24 @@ export async function createServer(
 		})
 	)
 
+	app.use(cookieParser())
+
 	if (vite) app.use(vite.middlewares)
 	else app.use('/', express.static(join(options.distDir, 'web')))
 
 	app.use((req, res, next) => {
 		const templatedRender = async (
 			IndexTemplate: (locals: Data) => string,
-			{ render }
+			{
+				render,
+			}: { render(url: string, ua: string, token?: string): Promise<string> }
 		) => {
 			res.startTime('render-react', 'React Render')
-			const body = render(req.url)
+			const body = await render(
+				req.url,
+				req.headers['user-agent'],
+				req.cookies['auth.token']
+			)
 			const helmet = Helmet.renderStatic()
 			res.endTime('render-react')
 
