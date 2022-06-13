@@ -1,6 +1,4 @@
-import merge from 'deepmerge'
 import { Axios } from 'axios'
-import { createAxios } from './http'
 
 export interface BaseContext {
 	token?: string

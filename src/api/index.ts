@@ -28,7 +28,7 @@ export default function createContext(options: ContextOptions = {}): Context {
 	}
 
 	if (typeof options.token === 'string') {
-		base.axios.defaults.headers.common['Authorization'] = options.token
+		base.axios.defaults.headers.common.Authorization = options.token
 	}
 
 	const types: Record<APITypes, UseContext> = { user: useUserContext }

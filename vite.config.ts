@@ -26,6 +26,7 @@ export default defineConfig({
 		'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
 	},
 	build: {
+		target: ['esnext'],
 		lib: {
 			client: {
 				entry: resolve(srcdir, 'src', 'web', 'entry.client.tsx'),

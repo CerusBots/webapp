@@ -1,14 +1,26 @@
 import React, { useState } from 'react'
-import { Button, Layout, Input } from 'antd'
+import {
+	Avatar,
+	Button,
+	Layout,
+	Input,
+	Image,
+	Spin,
+	Typography,
+	Space,
+} from 'antd'
 import MenuFoldOutline from '@ant-design/icons/MenuFoldOutlined'
 import MenuUnfoldOutline from '@ant-design/icons/MenuUnfoldOutlined'
 import UserOutlined from '@ant-design/icons/UserOutlined'
+import { useUser } from '../../contexts'
 
 const { Header, Content, Sider } = Layout
+const { Title } = Typography
 
 const LayoutDefault: React.FC<{}> = (props) => {
 	const [isSideOpen, setSideOpen] = useState(true)
 	const [isUserSideOpen, setUserSideOpen] = useState(false)
+	const user = useUser()
 	return (
 		<Layout
 			className="layout-default"
@@ -64,10 +76,34 @@ const LayoutDefault: React.FC<{}> = (props) => {
 				<Sider
 					collapsedWidth="0"
 					collapsed={!isUserSideOpen}
+					style={isUserSideOpen && { paddingLeft: '2vw', paddingRight: '2vw' }}
 					onBreakpoint={(broken) => {
 						setSideOpen(!broken)
 					}}>
-					<div className="logo" />
+					{user && (
+						<Title level={5} style={{ color: 'white' }}>
+							<Space>
+								<Avatar
+									draggable={false}
+									src={
+										<Image
+											src={
+												typeof user.avatarHash === 'string'
+													? `https://cdn.discordapp.com/avatars/${user.discordID}/${user.avatarHash}.png`
+													: `https://cdn.discordapp.com/embed/avatars/${user.discriminator.charAt(
+															user.discriminator.length - 1
+													  )}.png`
+											}
+										/>
+									}
+								/>
+								<span>
+									{user.username}#{user.discriminator}
+								</span>
+							</Space>
+						</Title>
+					)}
+					{!user && <Spin spinning />}
 				</Sider>
 			</Layout>
 		</Layout>
