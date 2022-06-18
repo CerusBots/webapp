@@ -1,4 +1,5 @@
 import { APIUser } from '@cerusbots/common/dist/http/types'
+import { AxiosError } from 'axios'
 import React from 'react'
 
 export const AuthTokenContext = React.createContext<string | null>(null)
@@ -24,3 +25,8 @@ export const UserAgentContext = React.createContext<string>('')
 UserAgentContext.displayName = 'UserAgentContext'
 
 export const useUserAgent = () => React.useContext(UserAgentContext)
+
+export const ErrorContext = React.createContext<Error | AxiosError | null>(null)
+ErrorContext.displayName = 'ErrorContext'
+
+export const useError = () => React.useContext(ErrorContext)

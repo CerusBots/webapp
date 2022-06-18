@@ -12,15 +12,24 @@ export async function render(
 ) {
 	const ctx = createContext({ userAgent, token: authToken })
 	let user: APIUser = null
+	let error: Error = null
 
 	try {
 		user = await ctx.user.get()
-	} catch {}
+	} catch (e) {
+		if (e.response.status !== 401) error = e
+	}
 
 	return ReactDOMServer.renderToString(
 		<React.StrictMode>
 			<StaticRouter location={url}>
-				<App userAgent={userAgent} authToken={authToken} user={user} url={url} />
+				<App
+					userAgent={userAgent}
+					authToken={authToken}
+					user={user}
+					url={url}
+					error={error}
+				/>
 			</StaticRouter>
 		</React.StrictMode>
 	)

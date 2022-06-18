@@ -49,7 +49,7 @@ const LayoutDefault: React.FC<{}> = (props) => {
 						icon={isSideOpen ? <MenuFoldOutline /> : <MenuUnfoldOutline />}
 						onClick={() => setSideOpen(!isSideOpen)}
 					/>
-					<Select className="header-bot-select" defaultValue="Bot"></Select>
+					<Select className="header-bot-select" defaultValue="No Bot"></Select>
 					<Input.Search />
 					<Button
 						type="primary"

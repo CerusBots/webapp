@@ -23,10 +23,13 @@ async function render() {
 	const authToken = cookie.parse(document.cookie)['auth.token']
 	const ctx = createContext({ userAgent, token: authToken })
 	let user: APIUser = null
+	let error: Error = null
 
 	try {
 		user = await ctx.user.get()
-	} catch {}
+	} catch (e) {
+		if (e.response.status !== 401) error = e
+	}
 
 	ReactDOM.hydrate(
 		<React.StrictMode>
@@ -36,6 +39,7 @@ async function render() {
 					userAgent={userAgent}
 					url={location.href}
 					user={user}
+					error={error}
 				/>
 			</BrowserRouter>
 		</React.StrictMode>,
