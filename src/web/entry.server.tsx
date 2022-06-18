@@ -17,7 +17,7 @@ export async function render(
 	try {
 		user = await ctx.user.get()
 	} catch (e) {
-		if (e.response.status !== 401) error = e
+		if (typeof e.response === 'object' && e.response.status !== 401) error = e
 	}
 
 	return ReactDOMServer.renderToString(

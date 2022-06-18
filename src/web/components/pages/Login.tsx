@@ -100,7 +100,7 @@ const PageLogin: React.FC<{}> = (props) => {
 							<Alert
 								type="error"
 								message={
-									typeof error.response === 'object'
+									'response' in error
 										? error.response.statusText || error.message
 										: error.message
 								}
