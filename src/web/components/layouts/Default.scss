@@ -1,0 +1,29 @@
+.header-bot-select {
+	display: block;
+}
+
+.sider-bot-select {
+	display: none;
+}
+
+.sider-main:not(.ant-layout-sider-collapsed),
+.sider-user:not(.ant-layout-sider-collapsed) {
+	max-width: 18vw !important;
+	min-width: 18vw !important;
+}
+
+@media only screen and (max-width: 1024px) {
+	.header-bot-select {
+		display: none;
+	}
+
+	.sider-bot-select {
+		display: block;
+	}
+
+	.sider-user:not(.ant-layout-sider-collapsed),
+	.sider-main:not(.ant-layout-sider-collapsed) {
+		max-width: 80vw !important;
+		min-width: 80vw !important;
+	}
+}

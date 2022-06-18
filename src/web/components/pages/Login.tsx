@@ -56,7 +56,10 @@ const PageLogin: React.FC<{}> = (props) => {
 					window.location.assign('/')
 				})
 				.catch((error) => {
-					if (typeof error.response.data === 'object')
+					if (
+						typeof error.response === 'object' &&
+						typeof error.response.data === 'object'
+					)
 						setError(
 							new Error(
 								`${error.response.data.error}: ${error.response.data.error_description}`

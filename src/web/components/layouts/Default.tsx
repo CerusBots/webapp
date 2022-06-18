@@ -8,14 +8,17 @@ import {
 	Spin,
 	Typography,
 	Space,
+	Select,
 } from 'antd'
 import MenuFoldOutline from '@ant-design/icons/MenuFoldOutlined'
 import MenuUnfoldOutline from '@ant-design/icons/MenuUnfoldOutlined'
 import UserOutlined from '@ant-design/icons/UserOutlined'
 import { useUser } from '../../contexts'
+import './Default.scss'
 
 const { Header, Content, Sider } = Layout
 const { Title } = Typography
+// const { Option } = Select
 
 const LayoutDefault: React.FC<{}> = (props) => {
 	const [isSideOpen, setSideOpen] = useState(true)
@@ -46,6 +49,7 @@ const LayoutDefault: React.FC<{}> = (props) => {
 						icon={isSideOpen ? <MenuFoldOutline /> : <MenuUnfoldOutline />}
 						onClick={() => setSideOpen(!isSideOpen)}
 					/>
+					<Select className="header-bot-select" defaultValue="Bot"></Select>
 					<Input.Search />
 					<Button
 						type="primary"
@@ -62,24 +66,31 @@ const LayoutDefault: React.FC<{}> = (props) => {
 					overflow: 'hidden',
 				}}>
 				<Sider
+					className="sider-main"
 					breakpoint="lg"
+					zeroWidthTriggerStyle={{ display: 'none' }}
 					collapsedWidth="0"
 					collapsed={!isSideOpen}
-					onBreakpoint={(broken) => {
-						setSideOpen(!broken)
-					}}>
+					onBreakpoint={(broken) => setSideOpen(!broken)}>
 					<div className="logo" />
 				</Sider>
 				<Content style={{ flexGrow: '1', overflow: 'auto' }}>
 					{props.children}
 				</Content>
 				<Sider
+					className="sider-user"
+					zeroWidthTriggerStyle={{ display: 'none' }}
 					collapsedWidth="0"
 					collapsed={!isUserSideOpen}
-					style={isUserSideOpen && { paddingLeft: '2vw', paddingRight: '2vw' }}
-					onBreakpoint={(broken) => {
-						setSideOpen(!broken)
-					}}>
+					style={
+						isUserSideOpen && {
+							paddingLeft: '2vw',
+							paddingRight: '2vw',
+							paddingTop: '2vh',
+							paddingBottom: '2vh',
+						}
+					}
+					onBreakpoint={(broken) => setSideOpen(!broken)}>
 					{user && (
 						<Title level={5} style={{ color: 'white' }}>
 							<Space>
