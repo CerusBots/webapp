@@ -10,7 +10,7 @@
 		"build": "npm run build:server && npm run build:ssr && npm run build:web",
 		"dev": "nodemon dist/server.mjs",
 		"lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\" --ignore-path .gitignore .",
-		"lint:style": "stylelint \"**/*.{css,scss,sass}\" --ignore-path .gitignore",
+		"lint:style": "stylelint \"**/*.{css,scss,sass,less}\" --ignore-path .gitignore",
 		"lint:prettier": "prettier -c .",
 		"lint": "npm run lint:js && npm run lint:style && npm run lint:prettier"
 	},
@@ -20,7 +20,7 @@
 	},
 	"lint-staged": {
 		".ts{x,}": "eslint",
-		".scss": "stylelint"
+		".{c,sc,sa,le}ss": "stylelint"
 	},
 	"author": "RossComputerGuy",
 	"license": "GPL-3.0",

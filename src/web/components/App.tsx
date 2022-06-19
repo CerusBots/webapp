@@ -12,6 +12,7 @@ import PageNotFound from './NotFound'
 import PageHome from './pages/Home'
 import { APIUser } from '@cerusbots/common/dist/http/types'
 import PageLogin from './pages/Login'
+import './App.scss'
 
 const App: React.FC<{
 	authToken?: string
@@ -27,7 +28,7 @@ const App: React.FC<{
 					<ErrorContext.Provider value={error}>
 						<div className="app">
 							<Helmet>
-								<title>Cerus</title>
+								<title>Cerus Dashboard</title>
 							</Helmet>
 							<Routes>
 								<Route path="/" element={<PageHome />} />

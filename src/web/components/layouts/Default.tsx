@@ -13,6 +13,8 @@ import {
 import MenuFoldOutline from '@ant-design/icons/MenuFoldOutlined'
 import MenuUnfoldOutline from '@ant-design/icons/MenuUnfoldOutlined'
 import UserOutlined from '@ant-design/icons/UserOutlined'
+import PlusOutlined from '@ant-design/icons/PlusOutlined'
+import SearchOutlined from '@ant-design/icons/SearchOutlined'
 import { useUser } from '../../contexts'
 import './Default.scss'
 
@@ -23,6 +25,7 @@ const { Title } = Typography
 const LayoutDefault: React.FC<{}> = (props) => {
 	const [isSideOpen, setSideOpen] = useState(true)
 	const [isUserSideOpen, setUserSideOpen] = useState(false)
+	const [isSearchOpen, setSearchOpen] = useState(true)
 	const user = useUser()
 	return (
 		<Layout
@@ -36,24 +39,44 @@ const LayoutDefault: React.FC<{}> = (props) => {
 				overflow: 'hidden',
 			}}>
 			<Header>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: '100%',
-					}}>
+				<div className="center">
 					<Button
-						type="primary"
-						icon={isSideOpen ? <MenuFoldOutline /> : <MenuUnfoldOutline />}
+						type="link"
+						icon={
+							isSideOpen ? (
+								<MenuFoldOutline style={{ color: '#ffffff' }} />
+							) : (
+								<MenuUnfoldOutline style={{ color: '#ffffff' }} />
+							)
+						}
 						onClick={() => setSideOpen(!isSideOpen)}
 					/>
-					<Select className="header-bot-select" defaultValue="No Bot"></Select>
-					<Input.Search />
 					<Button
-						type="primary"
-						icon={<UserOutlined />}
+						type="link"
+						className="header-search"
+						icon={<SearchOutlined style={{ color: '#ffffff' }} />}
+						onClick={() => setSearchOpen(!isSearchOpen)}
+					/>
+					{isSearchOpen && <Input.Search />}
+					{!isSearchOpen && (
+						<div className="center">
+							<Select placeholder="Select bot..."></Select>
+							<Button
+								type="link"
+								icon={<PlusOutlined style={{ color: '#ffffff' }} />}
+							/>
+						</div>
+					)}
+					<div className="header-bot center">
+						<Select placeholder="Select bot..."></Select>
+						<Button
+							type="link"
+							icon={<PlusOutlined style={{ color: '#ffffff' }} />}
+						/>
+					</div>
+					<Button
+						type="link"
+						icon={<UserOutlined style={{ color: '#ffffff' }} />}
 						onClick={() => setUserSideOpen(!isUserSideOpen)}
 					/>
 				</div>
@@ -71,8 +94,24 @@ const LayoutDefault: React.FC<{}> = (props) => {
 					zeroWidthTriggerStyle={{ display: 'none' }}
 					collapsedWidth="0"
 					collapsed={!isSideOpen}
+					style={
+						isSideOpen && {
+							paddingLeft: '2vw',
+							paddingRight: '2vw',
+							paddingTop: '2vh',
+							paddingBottom: '2vh',
+						}
+					}
 					onBreakpoint={(broken) => setSideOpen(!broken)}>
-					<div className="logo" />
+					<Title className="sider-bot-select">
+						<div className="center">
+							<Select placeholder="Select bot..."></Select>
+							<Button
+								type="link"
+								icon={<PlusOutlined style={{ color: '#ffffff' }} />}
+							/>
+						</div>
+					</Title>
 				</Sider>
 				<Content style={{ flexGrow: '1', overflow: 'auto' }}>
 					{props.children}

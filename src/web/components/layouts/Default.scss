@@ -1,4 +1,8 @@
-.header-bot-select {
+.header-search {
+	display: none !important;
+}
+
+.header-bot {
 	display: block;
 }
 
@@ -13,12 +17,16 @@
 }
 
 @media only screen and (max-width: 1024px) {
-	.header-bot-select {
-		display: none;
+	.header-search {
+		display: block !important;
+	}
+
+	.header-bot {
+		display: none !important;
 	}
 
 	.sider-bot-select {
-		display: block;
+		display: block !important;
 	}
 
 	.sider-user:not(.ant-layout-sider-collapsed),
