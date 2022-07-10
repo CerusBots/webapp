@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {
 	Avatar,
 	Button,
+	Dropdown,
 	Layout,
 	Input,
 	Image,
@@ -9,12 +10,15 @@ import {
 	Typography,
 	Space,
 	Select,
+	Menu,
+	Tooltip,
 } from 'antd'
 import MenuFoldOutline from '@ant-design/icons/MenuFoldOutlined'
 import MenuUnfoldOutline from '@ant-design/icons/MenuUnfoldOutlined'
 import UserOutlined from '@ant-design/icons/UserOutlined'
 import PlusOutlined from '@ant-design/icons/PlusOutlined'
 import SearchOutlined from '@ant-design/icons/SearchOutlined'
+import BellOutlined from '@ant-design/icons/BellFilled'
 import { useUser } from '../../contexts'
 import './Default.scss'
 
@@ -39,7 +43,7 @@ const LayoutDefault: React.FC<{}> = (props) => {
 				overflow: 'hidden',
 			}}>
 			<Header>
-				<div className="center">
+				<div className="center" style={{ width: '100%' }}>
 					<Button
 						type="link"
 						icon={
@@ -74,6 +78,15 @@ const LayoutDefault: React.FC<{}> = (props) => {
 							icon={<PlusOutlined style={{ color: '#ffffff' }} />}
 						/>
 					</div>
+					<Dropdown overlay={<Menu />} trigger={['click']}>
+						<Button type="link" onClick={(e) => e.preventDefault()}>
+							<Space>
+								<Tooltip placement="bottom" title={<span>0 Alerts</span>}>
+									<BellOutlined style={{ color: '#ffffff' }} />
+								</Tooltip>
+							</Space>
+						</Button>
+					</Dropdown>
 					<Button
 						type="link"
 						icon={<UserOutlined style={{ color: '#ffffff' }} />}
@@ -140,9 +153,11 @@ const LayoutDefault: React.FC<{}> = (props) => {
 											src={
 												typeof user.avatarHash === 'string'
 													? `https://cdn.discordapp.com/avatars/${user.discordID}/${user.avatarHash}.png`
-													: `https://cdn.discordapp.com/embed/avatars/${user.discriminator.charAt(
+													: typeof user.discriminator === 'string'
+													? `https://cdn.discordapp.com/embed/avatars/${user.discriminator.charAt(
 															user.discriminator.length - 1
 													  )}.png`
+													: undefined
 											}
 										/>
 									}

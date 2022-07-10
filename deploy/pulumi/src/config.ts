@@ -1,0 +1,76 @@
+import { Config, Output } from '@pulumi/pulumi'
+import { githubImage } from './utils/image'
+import { parse } from 'yaml'
+
+export interface Configuration {
+  kubeConfig: any
+  name: string
+  namespace: string
+  dev: boolean
+  mode: string
+  version: string
+  sha: string
+  image: string
+  hasNamespace: boolean
+  domain: string
+  apiHost: string
+  discord: {
+    id: Output<string>
+    secret: Output<string>
+  }
+  analytics: {
+    enable: boolean
+    host: string
+  }
+  sentry: {
+    dsn: Output<string>
+  }
+}
+
+export function createConfig(config: Config): Configuration {
+  const name = config.get('name') || 'dev'
+  const mode = config.get('mode') || 'development'
+  const dev = mode === 'development'
+  const namespace = config.get('namespace') || 'cerusbots'
+  const version = config.get('version') || 'latest'
+  const sha = config.get('sha') || 'HEAD'
+  const kubeConfigRaw = config.get('kubeconfig')
+  const kubeConfig = kubeConfigRaw ? parse(kubeConfigRaw) : undefined
+  const domain = config.get('host') || 'cerusbots.' + (dev ? 'test' : 'com')
+  const hasNamespaceRaw = config.getBoolean('hasNamespace')
+  const hasNamespace =
+    typeof hasNamespaceRaw === 'undefined' ? true : hasNamespaceRaw
+  const apiHost = config.get('env.API_HOST') || `api.${domain}`
+  const enableAnalyticsRaw = config.getBoolean('analytics.enable')
+  const enableAnalytics =
+    typeof enableAnalyticsRaw === 'undefined' ? true : enableAnalyticsRaw
+
+  const cfg = {
+    name,
+    namespace,
+    kubeConfig,
+    dev,
+    mode,
+    version,
+    sha,
+    image: '',
+    domain,
+    hasNamespace,
+    apiHost,
+    discord: {
+      id: config.requireSecret('env.CLIENT_ID'),
+      secret: config.requireSecret('env.CLIENT_SECRET'),
+    },
+    analytics: {
+      enable: enableAnalytics,
+      host: config.get('env.ANALYTICS_HOST') || `analytics.${domain}`,
+    },
+    sentry: {
+      dsn: config.requireSecret('env.SENTRY_DSN'),
+    },
+  }
+  return {
+    ...cfg,
+    image: config.get('image') || githubImage(cfg, 'webapp'),
+  }
+}

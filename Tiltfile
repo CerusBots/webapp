@@ -1,25 +1,10 @@
-load('ext://deployment', 'deployment_create')
-load('ext://secret', 'secret_from_dict')
-load('ext://dotenv', 'dotenv')
+load('ext://pulumi', 'pulumi_resource')
 
-dotenv()
+update_settings(k8s_upsert_timeout_secs=600)
 
-k8s_yaml(secret_from_dict('cerus-webapp-secrets', namespace='cerusbots', inputs = {
-  'SENTRY_DSN': os.getenv('SENTRY_DSN'),
-  'ENABLE_ANALYTICS': os.getenv('ENABLE_ANALYTICS'),
-  'ANALYTICS_HOST': os.getenv('ANALYTICS_HOST'),
-  'CLIENT_ID': os.getenv('CLIENT_ID'),
-  'CLIENT_SECRET': os.getenv('CLIENT_SECRET'),
-  'API_HOST': 'api.cerusbots.test',
-  'DOMAIN': 'app.cerusbots.test'
-}))
-
-docker_build('ghcr.io/cerusbots/webapp', '.', dockerfile='./Dockerfile.dev', live_update=[
+docker_build('ghcr.io/cerusbots/webapp:latest', '.', dockerfile='./Dockerfile.dev', live_update=[
   sync('.', '/usr/src/server'),
   run('npm i', trigger='package.json'),
 ], extra_tag='master')
 
-k8s_yaml('./kube/deploy.yml')
-k8s_yaml('./kube/service.yml')
-
-k8s_resource(workload='cerus-webapp', labels=['cerus-frontend'], port_forwards=['3001:8080'])
+pulumi_resource('cerus-webapp', stack='dev', dir='deploy/pulumi', image_deps=['ghcr.io/cerusbots/webapp:latest'], image_configs=['image'], labels=['cerus'], port_forwards=['3001:8080'])
