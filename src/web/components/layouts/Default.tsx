@@ -31,7 +31,6 @@ const LayoutDefault: React.FC<{}> = (props) => {
 	const [isUserSideOpen, setUserSideOpen] = useState(false)
 	const [isSearchOpen, setSearchOpen] = useState(true)
 	const { isAuthenticated, user } = useAuth0()
-	console.log(isAuthenticated, user)
 	return (
 		<Layout
 			className="layout-default"
@@ -147,25 +146,8 @@ const LayoutDefault: React.FC<{}> = (props) => {
 					{isAuthenticated && user && (
 						<Title level={5} style={{ color: 'white' }}>
 							<Space>
-								<Avatar
-									draggable={false}
-									src={
-										<Image
-											src={
-												typeof user.avatarHash === 'string'
-													? `https://cdn.discordapp.com/avatars/${user.discordID}/${user.avatarHash}.png`
-													: typeof user.discriminator === 'string'
-													? `https://cdn.discordapp.com/embed/avatars/${user.discriminator.charAt(
-															user.discriminator.length - 1
-													  )}.png`
-													: undefined
-											}
-										/>
-									}
-								/>
-								<span>
-									{user.username}#{user.discriminator}
-								</span>
+								<Avatar draggable={false} src={<Image src={user.picture} />} />
+								<span>{user.name}</span>
 							</Space>
 						</Title>
 					)}
