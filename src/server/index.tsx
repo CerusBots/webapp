@@ -55,19 +55,17 @@ export async function createServer(
 	if (vite) app.use(vite.middlewares)
 	else app.use('/', express.static(join(options.distDir, 'web')))
 
+	app.get('/.internal/ping', (req, res) => {
+		res.json({ status: 'online' })
+	})
+
 	app.use((req, res, next) => {
 		const templatedRender = async (
 			IndexTemplate: (locals: Data) => string,
-			{
-				render,
-			}: { render(url: string, ua: string, token?: string): Promise<string> }
+			{ render }: { render(url: string, ua: string): Promise<string> }
 		) => {
 			res.startTime('render-react', 'React Render')
-			const body = await render(
-				req.url,
-				req.headers['user-agent'],
-				req.cookies['auth.token']
-			)
+			const body = await render(req.url, req.headers['user-agent'])
 			const helmet = Helmet.renderStatic()
 			res.endTime('render-react')
 

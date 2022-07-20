@@ -1,20 +1,12 @@
-import { APIUser } from '@cerusbots/common/dist/http/types'
-import { BaseContext, UseContext } from './context'
+import { BaseContext } from './context'
 import { createAxios } from './http'
-import useUserContext from './types/user'
 
 interface ContextOptions {
 	token?: string
 	userAgent?: string
 }
 
-type APITypes = 'user'
-
-interface Context {
-	user: {
-		get(): Promise<APIUser>
-	}
-}
+interface Context {}
 
 export default function createContext(options: ContextOptions = {}): Context {
 	const base: BaseContext = {
@@ -31,11 +23,12 @@ export default function createContext(options: ContextOptions = {}): Context {
 		base.axios.defaults.headers.common.Authorization = options.token
 	}
 
-	const types: Record<APITypes, UseContext> = { user: useUserContext }
+	/* const types: Record<APITypes, UseContext> = { }
 	return Object.fromEntries<{}>(
 		Object.entries(types).map(([type, useContext]) => [
 			type as APITypes,
 			useContext(base),
 		])
-	) as Record<APITypes, {}> as Context
+	) as Record<APITypes, {}> as Context */
+	return {}
 }

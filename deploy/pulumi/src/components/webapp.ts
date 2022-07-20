@@ -39,17 +39,17 @@ export const deployment = (
                 ports: [{ containerPort: 8080 }],
                 readinessProbe: {
                   httpGet: {
-                    path: '/',
+                    path: '/.internal/ping',
                     port: 8080,
                   },
-                  initialDelaySeconds: 60,
+                  initialDelaySeconds: 30,
                 },
                 livenessProbe: {
                   httpGet: {
-                    path: '/',
+                    path: '/.internal/ping',
                     port: 8080,
                   },
-                  initialDelaySeconds: 60,
+                  initialDelaySeconds: 30,
                 },
                 env: [
                   {
@@ -57,20 +57,12 @@ export const deployment = (
                     value: config.sentry.dsn,
                   },
                   {
-                    name: 'CLIENT_ID',
-                    value: config.discord.id,
-                  },
-                  {
-                    name: 'CLIENT_SECRET',
-                    value: config.discord.secret,
-                  },
-                  {
                     name: 'API_HOST',
                     value: config.apiHost,
                   },
                   {
                     name: 'DOMAIN',
-                    value: config.domain,
+                    value: `app.${config.domain}`,
                   },
                   {
                     name: 'ANALYTICS_HOST',

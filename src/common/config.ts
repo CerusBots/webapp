@@ -12,5 +12,6 @@ export default {
 	auth0: {
 		clientID: process.env.AUTH0_CLIENT_ID,
 		domain: process.env.AUTH0_DOMAIN,
+		issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
 	},
 }

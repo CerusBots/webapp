@@ -1,4 +1,3 @@
-import { APIUser } from '@cerusbots/common/dist/http/types'
 import { AxiosError } from 'axios'
 import React from 'react'
 
@@ -10,11 +9,6 @@ export const useURL = () => {
 	if (typeof navigator === 'object') return new URL(url)
 	return new URL(`http://${process.env.DOMAIN}${url}`)
 }
-
-export const UserContext = React.createContext<APIUser | null>(null)
-UserContext.displayName = 'UserContext'
-
-export const useUser = () => React.useContext(UserContext)
 
 export const UserAgentContext = React.createContext<string>('')
 UserAgentContext.displayName = 'UserAgentContext'

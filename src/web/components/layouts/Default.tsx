@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState } from 'react'
 import {
 	Avatar,
@@ -19,7 +20,6 @@ import UserOutlined from '@ant-design/icons/UserOutlined'
 import PlusOutlined from '@ant-design/icons/PlusOutlined'
 import SearchOutlined from '@ant-design/icons/SearchOutlined'
 import BellOutlined from '@ant-design/icons/BellFilled'
-import { useUser } from '../../contexts'
 import './Default.scss'
 
 const { Header, Content, Sider } = Layout
@@ -30,7 +30,8 @@ const LayoutDefault: React.FC<{}> = (props) => {
 	const [isSideOpen, setSideOpen] = useState(true)
 	const [isUserSideOpen, setUserSideOpen] = useState(false)
 	const [isSearchOpen, setSearchOpen] = useState(true)
-	const user = useUser()
+	const { isAuthenticated, user } = useAuth0()
+	console.log(isAuthenticated, user)
 	return (
 		<Layout
 			className="layout-default"
@@ -143,7 +144,7 @@ const LayoutDefault: React.FC<{}> = (props) => {
 						}
 					}
 					onBreakpoint={(broken) => setSideOpen(!broken)}>
-					{user && (
+					{isAuthenticated && user && (
 						<Title level={5} style={{ color: 'white' }}>
 							<Space>
 								<Avatar

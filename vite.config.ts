@@ -22,10 +22,11 @@ export default defineConfig({
 		'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`,
 		'process.env.DOMAIN': `"${process.env.DOMAIN}"`,
 		'process.env.API_HOST': `"${process.env.API_HOST}"`,
-		'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
-		'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
 		'process.env.AUTH0_CLIENT_ID': `"${process.env.AUTH0_CLIENT_ID}"`,
 		'process.env.AUTH0_DOMAIN': `"${process.env.AUTH0_DOMAIN}"`,
+		'process.env.AUTH0_SECRET': `"${process.env.AUTH0_SECRET}"`,
+		'process.env.AUTH0_ISSUER_BASE_URL': `"${process.env.AUTH0_ISSUER_BASE_URL}"`,
+		'process.env.AUTH0_AUDIENCE': `"${process.env.AUTH0_AUDIENCE}"`,
 	},
 	build: {
 		target: ['esnext'],

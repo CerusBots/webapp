@@ -1,7 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { AxiosError } from 'axios'
-import React, { useState } from 'react'
-import { Alert, Layout, Card, Spin, Button } from 'antd'
+import { parse } from 'querystring'
+import React, { useEffect, useState } from 'react'
+import { Alert, Layout, Card, Button } from 'antd'
 import { useError, useURL } from '../../contexts'
 
 const { Content } = Layout
@@ -9,7 +10,19 @@ const { Content } = Layout
 const PageLogin: React.FC<{}> = (props) => {
 	const url = useURL()
 	const [error, setError] = useState<Error | AxiosError | null>(useError())
-	const { loginWithRedirect } = useAuth0()
+	const { loginWithRedirect, handleRedirectCallback } = useAuth0()
+
+	useEffect(() => {
+		const query = parse(url.search.substring(1))
+		if (typeof query.code === 'string' && typeof query.state === 'string')
+			handleRedirectCallback().catch((e) => setError(e))
+		else if (typeof query.error !== 'string') loginWithRedirect()
+		else if (
+			typeof query.error === 'string' &&
+			typeof query.error_description === 'string'
+		)
+			setError(new Error(query.error_description))
+	})
 
 	return (
 		<Layout
