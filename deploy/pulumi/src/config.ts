@@ -14,6 +14,10 @@ export interface Configuration {
   hasNamespace: boolean
   domain: string
   apiHost: string
+  auth0: {
+    clientID: Output<string>
+    domain: string
+  }
   discord: {
     id: Output<string>
     secret: Output<string>
@@ -57,6 +61,10 @@ export function createConfig(config: Config): Configuration {
     domain,
     hasNamespace,
     apiHost,
+    auth0: {
+      domain: config.require('auth0.domain'),
+      clientID: config.requireSecret('auth0.clientID'),
+    },
     discord: {
       id: config.requireSecret('env.CLIENT_ID'),
       secret: config.requireSecret('env.CLIENT_SECRET'),

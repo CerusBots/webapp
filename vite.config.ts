@@ -24,6 +24,8 @@ export default defineConfig({
 		'process.env.API_HOST': `"${process.env.API_HOST}"`,
 		'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
 		'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
+		'process.env.AUTH0_CLIENT_ID': `"${process.env.AUTH0_CLIENT_ID}"`,
+		'process.env.AUTH0_DOMAIN': `"${process.env.AUTH0_DOMAIN}"`,
 	},
 	build: {
 		target: ['esnext'],

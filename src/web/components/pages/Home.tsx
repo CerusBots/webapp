@@ -15,7 +15,6 @@ const PageHome: React.FC<{}> = () => {
 		<LayoutDefault>
 			<Spin spinning={!isLoaded} />
 			{error && <Alert type="error" message={error.message} showIcon />}
-			{!user && <Navigate to="/login" replace={true} />}
 		</LayoutDefault>
 	)
 }

@@ -34,6 +34,7 @@
 	"devDependencies": {
 		"@ant-design/icons": "^4.7.0",
 		"@ant-design/react-native": "^5.0.0",
+		"@auth0/auth0-react": "^1.10.2",
 		"@cerusbots/common": "file:submodules/common",
 		"@commitlint/config-conventional": "^17.0.2",
 		"@sentry/react": "^7.1.1",

@@ -9,4 +9,8 @@ export default {
 	domain: process.env.DOMAIN,
 	apiHost: process.env.API_HOST,
 	apiVersion: 'v1',
+	auth0: {
+		clientID: process.env.AUTH0_CLIENT_ID,
+		domain: process.env.AUTH0_DOMAIN,
+	},
 }

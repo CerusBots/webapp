@@ -3,7 +3,7 @@ import merge from 'deepmerge'
 import config from '../common/config'
 
 const baseOptions: AxiosRequestConfig = {
-	baseURL: `http://${config.apiHost}/${config.apiVersion}`,
+	baseURL: `https://${config.apiHost}/${config.apiVersion}`,
 	responseType: 'json',
 }
 

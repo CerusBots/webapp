@@ -76,6 +76,14 @@ export const deployment = (
                     name: 'ANALYTICS_HOST',
                     value: config.analytics.host,
                   },
+                  {
+                    name: 'AUTH0_CLIENT_ID',
+                    value: config.auth0.clientID,
+                  },
+                  {
+                    name: 'AUTH0_DOMAIN',
+                    value: config.auth0.domain,
+                  },
                   config.analytics.enable && {
                     name: 'ENABLE_ANALYTICS',
                     value: '1',

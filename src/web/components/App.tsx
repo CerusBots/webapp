@@ -1,27 +1,30 @@
+import { Auth0Provider } from '@auth0/auth0-react'
+import { APIUser } from '@cerusbots/common/dist/http/types'
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Helmet from 'react-helmet'
+import PageNotFound from './NotFound'
+import PageHome from './pages/Home'
+import PageLogin from './pages/Login'
 import {
-	AuthTokenContext,
 	URLContext,
 	UserAgentContext,
 	UserContext,
 	ErrorContext,
 } from '../contexts'
-import { Routes, Route } from 'react-router-dom'
-import Helmet from 'react-helmet'
-import PageNotFound from './NotFound'
-import PageHome from './pages/Home'
-import { APIUser } from '@cerusbots/common/dist/http/types'
-import PageLogin from './pages/Login'
+import config from '../../common/config'
 import './App.scss'
 
 const App: React.FC<{
-	authToken?: string
 	user?: APIUser
 	userAgent: string
 	url: string
 	error?: Error
-}> = ({ authToken, userAgent, user, url, error }) => (
-	<AuthTokenContext.Provider value={authToken}>
+}> = ({ userAgent, user, url, error }) => (
+	<Auth0Provider
+		domain={config.auth0.domain}
+		clientId={config.auth0.clientID}
+		redirectUri={`https://${process.env.API_HOST}/v1/user/callback`}>
 		<UserAgentContext.Provider value={userAgent}>
 			<UserContext.Provider value={user}>
 				<URLContext.Provider value={url}>
@@ -40,6 +43,6 @@ const App: React.FC<{
 				</URLContext.Provider>
 			</UserContext.Provider>
 		</UserAgentContext.Provider>
-	</AuthTokenContext.Provider>
+	</Auth0Provider>
 )
 export default App
