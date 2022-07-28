@@ -8,5 +8,6 @@ import webapp from './components/webapp'
 export function createKube(config: Configuration, provider?: k8s.Provider) {
   const dependsOn: pulumi.Resource[] = []
   if (!config.hasNamespace) dependsOn.push(namespace(config, provider))
+  else dependsOn.push(new pulumi.StackReference(`CerusBots/k8s/${config.name}`))
   return [...dependsOn, webapp(config, provider, dependsOn)]
 }

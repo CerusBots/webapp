@@ -7,4 +7,4 @@ docker_build('ghcr.io/cerusbots/webapp:latest', '.', dockerfile='./Dockerfile.de
   run('npm i', trigger='package.json'),
 ], extra_tag='master')
 
-pulumi_resource('cerus-webapp', stack='dev', dir='deploy/pulumi', image_deps=['ghcr.io/cerusbots/webapp:latest'], image_configs=['image'], labels=['cerus'], port_forwards=['3001:8080'])
+pulumi_resource('cerus-webapp', stack='CerusBots/webapp/dev', dir='deploy/pulumi', image_deps=['ghcr.io/cerusbots/webapp:latest'], image_configs=['image'], labels=['cerus'], port_forwards=['3001:8080'])
